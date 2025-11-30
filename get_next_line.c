@@ -6,7 +6,7 @@
 /*   By: moelamma <moelamma@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/29 00:39:40 by moelamma          #+#    #+#             */
-/*   Updated: 2025/11/29 17:35:13 by moelamma         ###   ########.fr       */
+/*   Updated: 2025/11/30 12:23:47 by moelamma         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,7 @@ static char	*update_leftover(char *leftover)
 	if (!newline_pos)
 	{
 		free(leftover);
-		leftover = malloc(1);
-		if (!leftover)
-			return (NULL);
-		leftover[0] = '\0';
-		return (leftover);
+		return (NULL);
 	}
 	i = newline_pos - leftover + 1;
 	new_copy = ft_substr(leftover, i, ft_strlen(leftover) - i);
@@ -54,7 +50,7 @@ static char	*read_and_join(int fd, char *leftover)
 	int		bytes_read;
 	char	*temp;
 
-	buffer = malloc(sizeof(char) * (BUFFER_SIZE + 1));
+	buffer = malloc(sizeof(char) * ((size_t)BUFFER_SIZE + 1));
 	if (!buffer)
 		return (NULL);
 	bytes_read = 1;
@@ -97,7 +93,7 @@ char	*get_next_line(int fd)
 		return (free(leftover), leftover = NULL, NULL);
 	temp = update_leftover(leftover);
 	if (!temp)
-		return (free(leftover), leftover = NULL, line);
+		return (leftover = NULL, line);
 	leftover = temp;
 	return (line);
 }
